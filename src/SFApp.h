@@ -35,9 +35,35 @@ private:
 
   shared_ptr<SFAsset>        player;
   shared_ptr<SFBoundingBox>  app_box;
+  shared_ptr<SFAsset>        score_title;
+  shared_ptr<SFAsset>        top_bar;
+  shared_ptr<SFAsset>        gameover;
   list<shared_ptr<SFAsset> > projectiles;
   list<shared_ptr<SFAsset> > aliens;
   list<shared_ptr<SFAsset> > coins;
+  //BG
+  list<shared_ptr<SFAsset> > stars;
+  //Score
+  list<shared_ptr<SFAsset> > score0s;
+  list<shared_ptr<SFAsset> > score1s;
+  list<shared_ptr<SFAsset> > score2s;
+  list<shared_ptr<SFAsset> > score3s;
+  list<shared_ptr<SFAsset> > score4s;
+  list<shared_ptr<SFAsset> > score5s;
+  list<shared_ptr<SFAsset> > score6s;
+  list<shared_ptr<SFAsset> > score7s;
+  list<shared_ptr<SFAsset> > score8s;
+  list<shared_ptr<SFAsset> > score9s;
+  list<shared_ptr<SFAsset> > score00s;
+  list<shared_ptr<SFAsset> > score10s;
+  list<shared_ptr<SFAsset> > score20s;
+  list<shared_ptr<SFAsset> > score30s;
+  list<shared_ptr<SFAsset> > score40s;
+  list<shared_ptr<SFAsset> > score50s;
+  list<shared_ptr<SFAsset> > score60s;
+  list<shared_ptr<SFAsset> > score70s;
+  list<shared_ptr<SFAsset> > score80s;
+  list<shared_ptr<SFAsset> > score90s;
 
   int fire;
 

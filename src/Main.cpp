@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h> // Pull in the SDL definitions
+#include <stdlib.h> 
 #include <vector>     // Pull in the std::vector
 #include <memory>     // Pull in std::shared_ptr
 
@@ -38,7 +39,7 @@ SFError InitGraphics() {
   }
 
   // Create a new window
-  g_window = SDL_CreateWindow("StarShip Fontana"
+  g_window = SDL_CreateWindow("StarShip Fontana | Julian Smith"
                             , SDL_WINDOWPOS_CENTERED
                             , SDL_WINDOWPOS_CENTERED
                             , width
@@ -55,7 +56,7 @@ SFError InitGraphics() {
     throw SF_ERROR_VIDEOMODE;
   }
 
-  SDL_SetRenderDrawColor(g_renderer, 128, 128, 128, 255);
+  SDL_SetRenderDrawColor(g_renderer, 000, 000, 000, 255);
 
   return SF_ERROR_NONE;
 }
