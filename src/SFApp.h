@@ -38,6 +38,7 @@ private:
   shared_ptr<SFAsset>        score_title;
   shared_ptr<SFAsset>        top_bar;
   shared_ptr<SFAsset>        gameover;
+  shared_ptr<SFAsset>        gamewin;
   list<shared_ptr<SFAsset> > projectiles;
   list<shared_ptr<SFAsset> > aliens;
   list<shared_ptr<SFAsset> > coins;

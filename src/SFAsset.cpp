@@ -19,8 +19,11 @@ SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type)
     sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/coin.png");
     break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-  case SFASSET_GAMEOVER:
-    sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/gameover.png");
+  case SFASSET_GAME_OVER:
+    sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/gameoverSCREEN.png");
+    break;
+  case SFASSET_GAME_WIN:
+    sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/gamewinSCREEN.png");
     break;
 //////////////////////////////////////////////////////////////////////////////////////////////////////
   case SFASSET_STAR:
@@ -239,7 +242,7 @@ bool SFAsset::IsAlive() {
 }
 
 void SFAsset::HandleCollision() {
-  if(SFASSET_PROJECTILE == type || SFASSET_ALIEN == type || SFASSET_PLAYER == type) {
+  if(SFASSET_PROJECTILE == type || SFASSET_ALIEN == type) {
     SetNotAlive();
   }
 }

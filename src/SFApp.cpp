@@ -3,6 +3,7 @@
   //Playerscore
   int playerscore = 0;
   int gameoverbool = 0;
+  int gamewincount = 0;
 
 SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_window(window) {
   int canvas_w, canvas_h;
@@ -15,7 +16,7 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_w
   player->SetPosition(player_pos);
 
 ////////////////////////////////////////////////////////////////////////////////////////
-  const int number_of_stars = 500;
+  const int number_of_stars = 640;
   int s=0; 
 
   while (s<number_of_stars) {
@@ -29,9 +30,13 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_w
   }
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////GAME OVER///////////////////////////////////////////////////////
-  gameover = make_shared<SFAsset>(SFASSET_GAMEOVER, sf_window);
-  auto gameoverpos     = Point2(320,240);
+  gameover         = make_shared<SFAsset>(SFASSET_GAME_OVER, sf_window);
+  auto gameoverpos = Point2(320,700);
   gameover->SetPosition(gameoverpos);
+/////////////////////////////GAME WIN///////////////////////////////////////////////////////
+  gamewin          = make_shared<SFAsset>(SFASSET_GAME_WIN, sf_window);
+  auto gamewinpos  = Point2(320,700);
+  gamewin->SetPosition(gamewinpos);
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -52,7 +57,7 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_w
   int j=0; 
 
   while (j<number_of_coins) {
-    auto coin = make_shared<SFAsset>(SFASSET_COIN, sf_window);
+    auto coin  = make_shared<SFAsset>(SFASSET_COIN, sf_window);
     auto cpos  = Point2((canvas_w/number_of_coins) * j, rand() % 14000 + 1200);
     coin->SetPosition(cpos);
     coins.push_back(coin);
@@ -60,13 +65,13 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_w
   }
 
   // Grey Score Bar
-  top_bar = make_shared<SFAsset>(SFASSET_TOP_BAR, sf_window);
-  auto barpos     = Point2(320,496);
+  top_bar     = make_shared<SFAsset>(SFASSET_TOP_BAR, sf_window);
+  auto barpos = Point2(320,496);
   top_bar->SetPosition(barpos);
 
   //Score Title
   score_title = make_shared<SFAsset>(SFASSET_SCORE_TITLE, sf_window);
-  auto spos     = Point2(429,485);
+  auto spos   = Point2(429,485);
   score_title->SetPosition(spos);
 
 
@@ -220,6 +225,7 @@ void SFApp::OnEvent(SFEvent& event) {
   }
 }
 
+
 int SFApp::OnExecute() {
   // Execute the app
   SDL_Event event;
@@ -247,8 +253,12 @@ void SFApp::OnUpdateWorld() {
 
   // Update enemy positions
   for(auto a : aliens) {
-	
      a->GoSouth();
+     auto alienpos = a->GetPosition();
+     if ( alienpos.getY() < 0 ) {
+     gamewincount++;
+     a->HandleCollision();
+}
 }
 
   // Detect collisions
@@ -260,13 +270,13 @@ void SFApp::OnUpdateWorld() {
         a->HandleCollision();
         // Add to score
         playerscore = playerscore + 10;
+        gamewincount++;
 	
       }
    for(auto c : coins) {
       if(player->CollidesWith(c)) {
         player->HandleCollision();
         c->HandleCollision();
-	cout<< "HIT" << endl;
         gameoverbool = 1;
       }
     }
@@ -315,8 +325,24 @@ for (auto s: stars) {
   }
 
   for(auto c: coins) {
+if (gameoverbool == 0) {
     c->OnRender();
+}
   }
+
+//////////////////////////////////////////////////////////////////////////////
+if (gameoverbool == 1) {
+ gameover->OnRender();
+ cout<< "GAMEOVER"<< endl;
+ cout<< "Your Score = ";
+ cout<< playerscore << endl;
+}
+if (gameoverbool == 0 && gamewincount >= 90 ) {
+ gamewin->OnRender();
+ cout<< "WELL DONE! YOU WON"<< endl;
+ cout<< "Your Score = ";
+cout<< playerscore << endl;
+}
 
     //Draw top bar
   top_bar->OnRender();
@@ -325,10 +351,6 @@ for (auto s: stars) {
   score_title->OnRender();
 
   //Score System
-  ////TEST///
-  if (playerscore >= 0) {
-	cout<< playerscore << endl;
-}
   /////100ths/////
   for (auto s0: score0s)
   if (playerscore < 99) {
@@ -414,10 +436,6 @@ for (auto s: stars) {
       s90->OnRender();
   }
 
-//////////////////////////////////////////////////////////////////////////////
-if (gameoverbool == 1) {
- gameover->OnRender();
-}
 
   // Switch the off-screen buffer to be on-screen
   SDL_RenderPresent(sf_window->getRenderer());
@@ -429,4 +447,3 @@ void SFApp::FireProjectile() {
   pb->SetPosition(v);
   projectiles.push_back(pb);
 }
-
